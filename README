@@ -8,6 +8,7 @@ MercuryDPM runs (specifically, the UnitTests that come with MercuryDPM.)
 mercury_load_data - load .data file produced by MercuryDPM
 mercury_load_ene - load .ene file produced by MercuryDPM
 mercury_get_kes - get KEs of individual particles from a 'data' struct as functions of time
+mercury_load_restart - load a .restart file produced by MercuryDPM
 
 There is a demonstration of these things in mercury_test. 
 In particular, these functions are used to load the output of the demo code

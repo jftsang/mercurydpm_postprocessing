@@ -1,0 +1,6 @@
+*.data
+*.fstat
+*.ene
+*.restart
+*.mat
+*.m~
