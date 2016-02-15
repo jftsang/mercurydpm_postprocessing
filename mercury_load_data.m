@@ -76,6 +76,7 @@ function data = mercury_load_data(filename, maxtime)
                     str2double(line{3}), ...
                     str2double(line{4}), ...
                     0 ];
+                particles(j).radius(i) = str2double(line{5});
             elseif (dimensions == 3) 
                 particles(j).pos(i,:) = [ ...
                     str2double(line{1}), ...
@@ -85,10 +86,10 @@ function data = mercury_load_data(filename, maxtime)
                     str2double(line{4}), ...
                     str2double(line{5}), ...
                     str2double(line{6}) ];
+                particles(j).radius(i) = str2double(line{7});
             else 
                 error('dimensions is neither 2 nor 3');        
             end
-            particles(j).radius(i) = str2double(line{5});
         end
     end
     fclose(f);
