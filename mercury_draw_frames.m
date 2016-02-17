@@ -23,16 +23,16 @@ function mercury_draw_frames(data, frames, vels, spheres, holdyn)
     end
     tic;
     
-    for frame = frames
+    for i = frames
         % draw particle positions
-        for i = 1:length(data.particles)
+        for j = 1:length(data.frames(i).particles)
             if (data.dimensions == 2)
-                plot(data.particles(i).pos(frame,1), ...
-                     data.particles(i).pos(frame,2), 'k.');
+                plot(data.frames(i).particles(j).pos(1), ...
+                     data.frames(i).particles(j).pos(2), 'k.');
             elseif (data.dimensions == 3)
-                plot3(data.particles(i).pos(frame,1), ...
-                      data.particles(i).pos(frame,2), ...
-                      data.particles(i).pos(frame,3), 'k.');
+                plot3(data.frames(i).particles(j).pos(1), ...
+                      data.frames(i).particles(j).pos(2), ...
+                      data.frames(i).particles(j).pos(3), 'k.');
             end
             hold on;
             
@@ -42,15 +42,15 @@ function mercury_draw_frames(data, frames, vels, spheres, holdyn)
             if (spheres)
                 if (data.dimensions == 2)
                     thetas = 0:pi/8:2*pi;
-                    plot(data.particles(i).pos(frame,1) + data.particles(i).radius(frame) * cos(thetas), ...
-                         data.particles(i).pos(frame,2) + data.particles(i).radius(frame) * sin(thetas), ...
+                    plot(data.frames(i).particles(j).pos(1) + data.frames(i).particles(j).radius * cos(thetas), ...
+                         data.frames(i).particles(j).pos(2) + data.frames(i).particles(j).radius * sin(thetas), ...
                          'k-');
                 elseif (data.dimensions == 3)
                     [thetas,phis] = meshgrid(0:pi/8:pi,0:pi/8:2*pi);
                     mesh(...
-                        data.particles(i).pos(frame,1) + data.particles(i).radius(frame) * sin(thetas).*cos(phis),...
-                        data.particles(i).pos(frame,2) + data.particles(i).radius(frame) * sin(thetas).*sin(phis),...
-                        data.particles(i).pos(frame,3) + data.particles(i).radius(frame) * cos(thetas) );
+                        data.frames(i).particles(j).pos(1) + data.frames(i).particles(j).radius * sin(thetas).*cos(phis),...
+                        data.frames(i).particles(j).pos(2) + data.frames(i).particles(j).radius * sin(thetas).*sin(phis),...
+                        data.frames(i).particles(j).pos(3) + data.frames(i).particles(j).radius * cos(thetas) );
                 end
             end
         end
@@ -72,9 +72,9 @@ function mercury_draw_frames(data, frames, vels, spheres, holdyn)
             % For drawing velocity arrows. 
             % See http://stackoverflow.com/questions/25729784/how-to-draw-an-arrow-in-matlab
             drawArrow = @(x,y,u,v) quiver(x, y, u, v, 0, 'Color', 'k');
-            for i = 1:length(data.particles)
-                drawArrow(data.particles(i).pos(frame,1), data.particles(i).pos(frame,2), ...
-                          data.particles(i).vel(frame,1) * data.dt, data.particles(i).vel(frame,2) * data.dt);
+            for j = 1:length(data.frames(i).particles)
+                drawArrow(data.frames(i).particles(j).pos(1), data.frames(i).particles(j).pos(2), ...
+                          data.frames(i).particles(j).vel(1) * data.dt, data.frames(i).particles(j).vel(2) * data.dt);
             end
         end
     end
