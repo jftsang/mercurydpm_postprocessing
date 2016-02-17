@@ -3,9 +3,6 @@
 % - It is assumed that dt is the same from each frame to the next frame. 
 %   This might not be the case in general.
 % - It is assumed that the bounding box doesn't change between frames.
-% - It is assumed at the moment that particles are not created or
-% destroyed, and that there is the same number of particles in each frame,
-% with a given index referring to the same particle in different frames. 
 
 % Notes:
 % - The 'dt' found here is the timestep between adjacent entries in the
@@ -48,15 +45,16 @@ function data = mercury_load_data(filename, maxtime)
         end
 
         if (mode == 0)
-            % loading a new timestep
+            % loading a new frame
             i = i + 1;
-            nparts(i) = str2num(line{1});
             % ts - the times of the snapshots
             ts(i) = str2double(line{2});
+            frames(i).t = ts(i);
+            frames(i).nparts = str2num(line{1});
             if (ts(i) > maxtime) 
                 break;
             end
-            mode = nparts(i);
+            mode = frames(i).nparts;
         elseif (mode > 0)
             % Have to load 'mode' more particles for this curent timestep.
             mode = mode - 1;
@@ -65,28 +63,28 @@ function data = mercury_load_data(filename, maxtime)
             % particles during the course of a simulation, if particles are
             % created or destroyed... there is no guarantee that nparts(i)
             % should be constant. 
-            j = nparts(i) - mode;
+            j = frames(i).nparts - mode;
            
             if (dimensions == 2) 
-                particles(j).pos(i,:) = [ ...
+                frames(i).particles(j).pos = [ ...
                     str2double(line{1}), ...
                     str2double(line{2}), ...
                     0];
-                particles(j).vel(i,:) = [ ...
+                frames(i).particles(j).vel = [ ...
                     str2double(line{3}), ...
                     str2double(line{4}), ...
                     0 ];
-                particles(j).radius(i) = str2double(line{5});
+                frames(i).particles(j).radius = str2double(line{5});
             elseif (dimensions == 3) 
-                particles(j).pos(i,:) = [ ...
+                frames(i).particles(j).pos = [ ...
                     str2double(line{1}), ...
                     str2double(line{2}), ...
                     str2double(line{3}) ];
-                particles(j).vel(i,:) = [ ...
+                frames(i).particles(j).vel = [ ...
                     str2double(line{4}), ...
                     str2double(line{5}), ...
                     str2double(line{6}) ];
-                particles(j).radius(i) = str2double(line{7});
+                frames(i).particles(j).radius = str2double(line{7});
             else 
                 error('dimensions is neither 2 nor 3');        
             end
@@ -95,11 +93,11 @@ function data = mercury_load_data(filename, maxtime)
     fclose(f);
     
     data.filename = filename;
+    data.maxtime = maxtime;
     data.dimensions = dimensions;
     data.boundingbox = boundingbox;
-    data.nparts = nparts;
     data.ts = ts;
     data.dt = ts(2) - ts(1); 
-    data.particles = particles;
+    data.frames = frames;
     toc;
 end
