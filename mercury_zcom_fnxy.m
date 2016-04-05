@@ -15,10 +15,13 @@ h = 0.1; % This depends on your data.
 axis([0 5 -1 1 0 h]); caxis([0 h]); 
 %}
 
-function zcom_fnxy = mercury_zcom_fnxy(poss, rs, ms, x, y) 
+function zcom_fnxy = mercury_zcom_fnxy(poss, vels, rs, ms, x, y) 
     xs = poss(:,1);
     ys = poss(:,2);
     zs = poss(:,3);
+    us = vels(:,1);
+    vs = vels(:,2);
+    ws = vels(:,3); 
     
     % TODO Find some way of speeding this up. Probably will need to use
     % parallelisation. On my laptop, only two cores are available to the
@@ -26,8 +29,17 @@ function zcom_fnxy = mercury_zcom_fnxy(poss, rs, ms, x, y)
     % cluster. 
     for i = 1:length(xs)
         % Evaluating kernel_normal is actually really slow...
-        kxs(i) = kernel_normal(x-xs(i), rs(i));
-        kys(i) = kernel_normal(y-ys(i), rs(i));
+%         kxs(i) = kernel_normal(x-xs(i), rs(i));
+%         kys(i) = kernel_normal(y-ys(i), rs(i));
+
+        % Try this instead:
+        sx = rs(i); sy = rs(i)*3;
+        kxs(i) = sx/(pi*(sx^2 + (x-xs(i))^2)) ; % TODO Need some normalisation constant
+        kys(i) = sy/(pi*(sy^2 + (y-ys(i))^2)) ;
+        % Yep, inline functions are much, much faster than calling another
+        % function such as kernel_normal. I'm a little scared that it might
+        % lead to messy code, though. 
+        
         num_summands(i) = zs(i) * ms(i) * kxs(i) * kys(i);
         den_summands(i) = ms(i) * kxs(i) * kys(i);
     end
