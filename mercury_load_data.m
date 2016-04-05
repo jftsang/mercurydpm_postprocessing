@@ -75,6 +75,10 @@ function data = mercury_load_data(filename, maxtime)
                     str2double(line{4}), ...
                     0 ];
                 frames(i).particles(j).radius = str2double(line{5});
+                % TODO .data files don't actually contain any information
+                % about particle masses, only about their radii. This trick
+                % only works if all particles have density 1...
+                frames(i).particles(j).mass = pi*frames(i).particles(j).radius^2;
             elseif (dimensions == 3) 
                 frames(i).particles(j).pos = [ ...
                     str2double(line{1}), ...
@@ -85,6 +89,10 @@ function data = mercury_load_data(filename, maxtime)
                     str2double(line{5}), ...
                     str2double(line{6}) ];
                 frames(i).particles(j).radius = str2double(line{7});
+                % TODO .data files don't actually contain any information
+                % about particle masses, only about their radii. This trick
+                % only works if all particles have density 1...
+                frames(i).particles(j).mass = (4/3)*pi*frames(i).particles(j).radius^3;
             else 
                 error('dimensions is neither 2 nor 3');        
             end
@@ -97,7 +105,9 @@ function data = mercury_load_data(filename, maxtime)
     data.dimensions = dimensions;
     data.boundingbox = boundingbox;
     data.ts = ts;
-    data.dt = ts(2) - ts(1); 
+    if (length(data.ts) > 1)
+        data.dt = ts(2) - ts(1); 
+    end
     data.frames = frames;
     toc;
 end

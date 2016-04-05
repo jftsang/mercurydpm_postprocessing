@@ -45,6 +45,7 @@ function mercury_draw_frames(data, frames, vels, spheres, holdyn)
                     plot(data.frames(i).particles(j).pos(1) + data.frames(i).particles(j).radius * cos(thetas), ...
                          data.frames(i).particles(j).pos(2) + data.frames(i).particles(j).radius * sin(thetas), ...
                          'k-');
+
                 elseif (data.dimensions == 3)
                     [thetas,phis] = meshgrid(0:pi/8:pi,0:pi/8:2*pi);
                     mesh(...
@@ -54,7 +55,9 @@ function mercury_draw_frames(data, frames, vels, spheres, holdyn)
                 end
             end
         end
-        axis(data.boundingbox);
+        if (data.dimensions == 2) 
+            axis(data.boundingbox);
+        end
         axis equal;
         xlabel('x');
         ylabel('y');
