@@ -20,16 +20,16 @@ mercury_dataframe* load_mercury_3d_data_multiple(
 typedef struct {
     char* filename;
     int ind;
-    mercury_dataframe frame;
-} lm3d_pt_wrapstruct;
+    mercury_dataframe* frameptr;
+} lm3d_pt_wrapstruct_;
 
-void* lm3d_pt_wrapper(void* voidin);
+void* lm3d_pt_wrapper_(void* voidin);
 
 /* Function definitions */
 
-void* lm3d_pt_wrapper(void* voidin) {
-    lm3d_pt_wrapstruct* inst = (lm3d_pt_wrapstruct*)voidin;
-    inst->frame = load_mercury_3d_data(inst->filename, 0);
+void* lm3d_pt_wrapper_(void* voidin) {
+    lm3d_pt_wrapstruct_* inst = (lm3d_pt_wrapstruct_*)voidin;
+    *(inst->frameptr) = load_mercury_3d_data(inst->filename, 0);
     return NULL;
 };
 
@@ -42,7 +42,7 @@ mercury_dataframe* load_mercury_3d_data_multiple(
     mercury_dataframe* frames;
     frames = new mercury_dataframe[nframes];
     pthread_t threads[nframes];
-    lm3d_pt_wrapstruct structs[nframes]; 
+    lm3d_pt_wrapstruct_ structs[nframes]; 
     
     for (int i = 0; i < nframes ; i++) {
         /* Construct the filenames. */
@@ -50,18 +50,15 @@ mercury_dataframe* load_mercury_3d_data_multiple(
         structs[i].filename = (char*)malloc(strlen(filename_base)+11);
         snprintf(structs[i].filename, strlen(filename_base)+11, 
                     "%s%d", filename_base, ind);
+        structs[i].frameptr = &(frames[i]);
         fprintf(stderr, "%s\n", structs[i].filename);
         
         pthread_create(
-                &threads[i], NULL, lm3d_pt_wrapper, &structs[i]);
+                &threads[i], NULL, lm3d_pt_wrapper_, &structs[i]);
     }
 
     for (int i = 0; i < nframes ; i++) {
         pthread_join(threads[i], NULL);
-    }
-
-    for (int i = 0; i < nframes; i++) {
-        frames[i] = structs[i].frame;
     }
 
     return frames;

@@ -4,7 +4,7 @@
 int main(int argc, char* argv[]) {
     char filename_base[] = "/home/jmft2/MercuryDPM/MercuryBuild/Drivers/VPeriodic/veryshort3/VPeriodicveryshort3.data.";
     int first_ind = 0;
-    int last_ind = 4;
+    int last_ind = 120;
     int nframes = last_ind - first_ind + 1;
     mercury_dataframe* frames; 
 
