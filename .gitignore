@@ -6,3 +6,7 @@
 *.restart
 *.mat
 *.m~
+*.png
+*.eps
+*.pdf
+*.tar
