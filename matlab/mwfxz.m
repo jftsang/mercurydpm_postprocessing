@@ -16,11 +16,14 @@ rs = extractfield(frame.particles, 'radius');
 ms = extractfield(frame.particles, 'mass');
 %}
 toc;
-vfxz = arrayfun(@(x,z) mercury_ws_fnxz(poss, vels, rs, ms, 1, x, z), xs, zs);
+ufxz = arrayfun(@(x,z) mercury_ws_fnxz(poss, vels, rs, ms, 1, x, z), xs, zs);
+vfxz = arrayfun(@(x,z) mercury_ws_fnxz(poss, vels, rs, ms, 2, x, z), xs, zs);
+wfxz = arrayfun(@(x,z) mercury_ws_fnxz(poss, vels, rs, ms, 3, x, z), xs, zs);
+
 toc;
 
 %% Graphics.
-figure;
-surf(xs, zs, vfxz, 'EdgeColor', 'none'); 
+% figure;
+surf(xs, zs, ufxz, 'EdgeColor', 'none'); 
 view(2); colormap jet; colorbar;
-axis([0 5 0 .14]); caxis([-.4,.05])
+axis([0 5 0 .14]); caxis([0,50])

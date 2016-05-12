@@ -105,6 +105,7 @@ function restart = mercury_load_restart(filename)
                 % first numerical field. 
                 
                 % TODO - make this more neat and more general
+                %{
                 if(~isnan(str2double(lineargs{2})))
                     firstfield = 2;
                 elseif (~isnan(str2double(lineargs{3})))
@@ -112,19 +113,26 @@ function restart = mercury_load_restart(filename)
                 else
                     firstfield = 4;
                 end
+                %}
                 
+                firstfield = 7; % Hack
                 restart.particles(i).pos = [ ...
                     str2double(lineargs{firstfield}), ...
                     str2double(lineargs{firstfield+1}), ...
                     str2double(lineargs{firstfield+2}) ];
+                firstfield = 16; % Hack 
                 restart.particles(i).vel = [ ...
-                    str2double(lineargs{firstfield+3}), ...
-                    str2double(lineargs{firstfield+4}), ...
-                    str2double(lineargs{firstfield+5}) ];
-                restart.particles(i).radius = str2double(lineargs{firstfield+6});
-                restart.particles(i).species = str2double(lineargs{length(lineargs)});
+                    str2double(lineargs{firstfield}), ...
+                    str2double(lineargs{firstfield+1}), ...
+                    str2double(lineargs{firstfield+2}) ];
+                restart.particles(i).radius = str2double(lineargs{33});
+                restart.particles(i).mass = str2double(lineargs{35});
+                % TODO Fix
+%                 restart.particles(i).species = str2double(lineargs{length(lineargs)});
             end
         else
+            % Emit a warning if we don't know what to do
+            % (e.g. if I haven't implemented this yet)
             warning('Could not parse line %d of file %s.', ln, filename);
         end
         line = fgetl(f); ln = ln+1;

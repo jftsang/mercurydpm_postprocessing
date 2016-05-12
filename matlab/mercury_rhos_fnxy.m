@@ -1,4 +1,4 @@
-% Get the density field, as a function of x, y, z. 
+% Get the density field, as a function of x, y. 
 % See notes for definition. 
 %{
 frame = data.frames(1);
@@ -19,8 +19,9 @@ function rhos_fnxy = mercury_rhos_fnxy(poss, rs, ms, x, y)
     xs = poss(:,1);
     ys = poss(:,2);
     
+    summands = zeros(length(xs), 1);
     for i = 1:length(xs)
-        sx = rs(i); sy = rs(i); sz = rs(i);
+        sx = 0.1*rs(i); sy = 50*rs(i);
         kxs = sx/(pi*(sx^2 + (x-xs(i))^2));
         kys = sy/(pi*(sy^2 + (y-ys(i))^2));
         

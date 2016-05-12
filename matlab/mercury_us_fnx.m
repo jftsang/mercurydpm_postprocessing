@@ -8,7 +8,7 @@ vels = extractfield(frame.particles, 'vel');
 rs = extractfield(frame.particles, 'radius');
 ms = extractfield(frame.particles, 'mass');
 
-xs = linspace(data.boundingbox(1), data.boundingbox(2), 64);
+xs = linspace(0, 20, 512);
 tic; 
 usfx = arrayfun(@(x) mercury_us_fnx(poss, vels, rs, ms, 1, x), xs);
 toc;
