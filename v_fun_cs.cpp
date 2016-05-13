@@ -7,7 +7,6 @@
 #include<cstdlib>
 #include<cassert>
 #include"load_mercury_3d_data.hpp"
-#include"kernfunc.hpp"
 #include"coarse_grain_at_point.hpp"
 
 double pi = 3.1415926535898;
@@ -63,7 +62,7 @@ int main(int argc, char* argv[]) {
 
     for (int j = 0; j < Npoints; j++) {
         cgs[j] = coarse_grain_at_point(
-            desired_x, yqs[j], zqs[j], 2, 4, 4, 
+            desired_x, yqs[j], zqs[j], -2, 4, 4, 
             frame.ps, frame.Np );
     }
 

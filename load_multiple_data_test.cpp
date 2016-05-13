@@ -1,5 +1,11 @@
 #include "load_mercury_3d_data_multiple.h"
+#include"coarse_grain_at_point.hpp"
 #include<stdio.h>
+
+double xmin, xmax;
+double ymin, ymax;
+double zmin, zmax;
+double eps = 1e-12;
 
 int main(int argc, char* argv[]) {
     char filename_base[] = "/home/jmft2/MercuryDPM/MercuryBuild/Drivers/VPeriodic/veryshort3/VPeriodicveryshort3.data.";
@@ -16,9 +22,30 @@ int main(int argc, char* argv[]) {
         fprintf(stdout, 
             "i=%d, framenumber=%d, time=%f, Np=%d\n", 
             i, first_ind+i, frames[i].time, frames[i].Np);
+        /*
         for (int j = 0; j < frames[i].Np; j++) {
             fprintf(stdout, "i = %d, j = %d, x = %f\n", 
                     i, j, frames[i].ps[j].x);
         }
+        */
+
+        xmin = frames[i].xmin; xmax = frames[i].xmax;
+        ymin = frames[i].ymin; ymax = frames[i].ymax;
+        zmin = frames[i].zmin; zmax = frames[i].zmax;
+        
+        int Npoints = 120;
+        double xqs[Npoints];
+        double yqs[Npoints];
+        double zqs[Npoints];
+        cg_fields* cgs = (cg_fields*)malloc(Npoints * sizeof(cg_fields));
+        for (int j=0; j<Npoints; j++) {
+            xqs[j] = xmin + (xmax-xmin)*j/(Npoints - 1);
+            yqs[j] = 0;
+            zqs[j] = 0;
+            cgs[j] = coarse_grain_at_point(
+                    xqs[j], yqs[j], zqs[j], -2, 1, 0,
+                    frames[i].ps, frames[i].Np);
+        }
+        cg_fields_print(cgs, Npoints);
     }
 }

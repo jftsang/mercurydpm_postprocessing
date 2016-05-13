@@ -1,6 +1,8 @@
 #ifndef KERNFUNC
 #define KERNFUNC
 
+#include<math.h>
+
 /* For a query position (xq,yq,zq), kernfunc gives the 
  * weight of a particle at (x,y,z) with radius r. The scales ax, ay, az control
  * the 'effective radius' in that direction. 
