@@ -38,10 +38,6 @@ cg_fields coarse_grain_at_point(
         cg.pyq += kernel*ps[i].vy;
         cg.pzq += kernel*ps[i].vz;
     }
-    /*
-    fprintf(stdout, "xq=%f, yq=%f, zq=%f, rhoq=%f, pxq=%f\n", 
-                    xq, yq, zq, cg.rhoq, cg.pxq);
-                    */
 
     cg.vxq = cg.pxq / cg.rhoq;
     cg.vyq = cg.pyq / cg.rhoq;
