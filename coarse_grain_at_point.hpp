@@ -27,6 +27,7 @@ cg_fields coarse_grain_at_point(
     cg.pxq = 0;
     cg.pyq = 0;
     cg.pzq = 0;
+    cg.vsqq = 0;
     cg.Tq = 0;
 
     for (int i = 0; i < Np; i++) {
