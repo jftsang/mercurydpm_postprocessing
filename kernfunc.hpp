@@ -18,8 +18,6 @@
 #include<math.h>
 #include"mercury_dataframe.hpp"
 
-extern double eps;
-
 double kernfunc(
         double xq, double yq, double zq, 
         double x, double y, double z, 

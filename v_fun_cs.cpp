@@ -28,7 +28,7 @@ int main(int argc, char* argv[]) {
     }
 
     double desired_time = argc>2?atof(argv[2]):0;
-    int Npoints_z = 32; 
+    int Npoints_z = 64; 
     int Npoints_y = 64;
     int Npoints = Npoints_z * Npoints_y + 1;
     double desired_x = argc>3?atof(argv[3]):0;
@@ -53,7 +53,7 @@ int main(int argc, char* argv[]) {
     for (int j = 0; j < Npoints_z; j++) {
         for (int k = 0; k < Npoints_y; k++) {
             xqs[1 + j*Npoints_y + k] = desired_x;
-            zqs[1 + j*Npoints_y + k] = zmin + ((zmax-zmin)*j)/(Npoints_z - 1); 
+            zqs[1 + j*Npoints_y + k] = zmin + ((zmax-zmin)*(j+1))/(Npoints_z - 1); 
             double ymin_here = -zqs[1 + j*Npoints_y+k] / tan(alpha);
             double ymax_here = +zqs[1 + j*Npoints_y+k] / tan(alpha);
             yqs[1 + j*Npoints_y + k] = ymin_here + ((ymax_here-ymin_here)*k)/(Npoints_y - 1);
