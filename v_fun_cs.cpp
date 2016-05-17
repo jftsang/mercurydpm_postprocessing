@@ -33,15 +33,13 @@ int main(int argc, char* argv[]) {
     int Npoints = Npoints_z * Npoints_y;
     double desired_x = argc>3?atof(argv[3]):0;
 
-    mercury_dataframe frame;
-    frame = load_mercury_3d_data(filename, desired_time);
+    mercury_dataframe frame = load_mercury_3d_data(filename, desired_time);
     fprintf(stderr, "Loaded frame: time %f from file %s\n",
                 frame.time, filename.c_str());
 
     xmin = frame.xmin; xmax = frame.xmax;
     ymin = frame.ymin; ymax = frame.ymax;
     zmin = frame.zmin; zmax = frame.zmax;
-    particle* ps = frame.ps;
     std::cerr << "Np = " << frame.Np  << std::endl;
     std::cerr << "Finished loading from data files." << std::endl;
 
@@ -63,7 +61,7 @@ int main(int argc, char* argv[]) {
     for (int j = 0; j < Npoints; j++) {
         cgs[j] = coarse_grain_at_point(
             desired_x, yqs[j], zqs[j], -2, 4, 4, 
-            frame.ps, frame.Np );
+            frame.ps, frame.Np, &frame );
     }
 
     cg_fields_print(cgs, Npoints);

@@ -1,8 +1,6 @@
 #ifndef KERNFUNC
 #define KERNFUNC
 
-#include<math.h>
-
 /* For a query position (xq,yq,zq), kernfunc gives the 
  * weight of a particle at (x,y,z) with radius r. The scales ax, ay, az control
  * the 'effective radius' in that direction. 
@@ -17,9 +15,16 @@
  * TODO: Reduce dependence on externs.
  * */
 
-extern double pi, eps, xmin, xmax, ymin, ymax, zmin, zmax;
+#include<math.h>
+#include"mercury_dataframe.hpp"
 
-double kernfunc(double xq, double yq, double zq, double x, double y, double z, double r, double ax, double ay, double az) {
+extern double eps;
+
+double kernfunc(
+        double xq, double yq, double zq, 
+        double x, double y, double z, 
+        double r, double ax, double ay, double az,
+        mercury_dataframe *frame) {
     double kernel = 0;
 
     /* We weight according to the distance from the point
@@ -32,18 +37,18 @@ double kernfunc(double xq, double yq, double zq, double x, double y, double z, d
 
     /* For periodicity */
     if (ax < 0) {
-        if (difx > (xmax - xmin)/2) 
-            difx = (xmax - xmin - difx);
+        if (difx > (frame->xmax - frame->xmin)/2) 
+            difx = (frame->xmax - frame->xmin - difx);
         ax *= -1;
     }
     if (ay < 0) {
-        if (dify > (ymax - ymin)/2) 
-            dify = (ymax - ymin - dify);
+        if (dify > (frame->ymax - frame->ymin)/2) 
+            dify = (frame->ymax - frame->ymin - dify);
         ay *= -1;
     }
     if (az < 0) {
-        if (difz > (zmax - zmin)/2) 
-            difz = (zmax - zmin - difz);
+        if (difz > (frame->zmax - frame->zmin)/2) 
+            difz = (frame->zmax - frame->zmin - difz);
         az *= -1;
     }
 

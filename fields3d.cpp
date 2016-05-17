@@ -67,7 +67,7 @@ int main(int argc, char* argv[]) {
     for (int j = 0; j < Npoints; j++) {
         cgs[j] = coarse_grain_at_point(
             xqs[j], yqs[j], zqs[j], a, a, a, 
-            frame.ps, frame.Np );
+            frame.ps, frame.Np, &frame );
     }
 
     cg_fields_print(cgs, Npoints);

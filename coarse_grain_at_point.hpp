@@ -1,3 +1,6 @@
+#ifndef COARSE_GRAIN_AT_POINT
+#define COARSE_GRAIN_AT_POINT
+
 #include"particle.hpp"
 #include"mercury_dataframe.hpp"
 #include"kernfunc.hpp"
@@ -15,7 +18,8 @@ typedef struct {
 cg_fields coarse_grain_at_point(
         double xq, double yq, double zq, 
         double ax, double ay, double az,
-        particle* ps, int Np
+        particle* ps, int Np,
+        mercury_dataframe *frame 
 ) {
     cg_fields cg;
 
@@ -34,7 +38,8 @@ cg_fields coarse_grain_at_point(
         double kernel = 
             (fabs(ps[i].vx)<=eps && fabs(ps[i].vz)<=eps && fabs(ps[i].vz)<=eps) ? 0 :
                 kernfunc(xq, yq, zq,
-                         ps[i].x, ps[i].y, ps[i].z, ps[i].r, ax, ay, az);
+                         ps[i].x, ps[i].y, ps[i].z, ps[i].r, ax, ay, az,
+                         frame);
 
         cg.rhoq += kernel;
         cg.pxq += kernel*ps[i].vx;
@@ -64,3 +69,5 @@ void cg_fields_print(cg_fields* cgs, int Npoints) {
                 cgs[j].Tq);
     }
 }
+
+#endif
