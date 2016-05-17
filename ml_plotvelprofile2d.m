@@ -8,7 +8,7 @@ function ml_plotvelprofile2d(fn)
     mesh(yqq, zqq, rhoqq); colorbar; view(2); 
     axis equal; axis([-1 1 0 0.5]);
     title('rho (unscaled)');
-    caxis([0 18]);
+    caxis([0 3]);
 
     subplot(4,2,3);
     mesh(yqq, zqq, vxqq); colorbar; view(2);
@@ -16,6 +16,7 @@ function ml_plotvelprofile2d(fn)
     title('vx');
     caxis([0 4]);
     
+    %{
     subplot(4,2,5);
     mesh(yqq, zqq, vyqq); colorbar; view(2);
     axis equal; axis([-1 1 0 0.5]); 
@@ -27,6 +28,19 @@ function ml_plotvelprofile2d(fn)
     axis equal; axis([-1 1 0 0.5]); 
     caxis([-0.3 0.3]);
     title('vz');
+    %}
+    
+    subplot(4,2,5);
+    div2dqq = divergence(yqq, zqq, vyqq, vzqq);
+    mesh(yqq, zqq, div2dqq); colorbar; view(2);
+    axis equal; axis([-1 1 0 0.5]);
+    title('2D divergence of CS flow');
+    
+    subplot(4,2,7);
+    curl2dqq = curl(yqq, zqq, vyqq, vzqq);
+    mesh(yqq, zqq, curl2dqq); colorbar; view(2);
+    axis equal; axis([-1 1 0 0.5]);
+    title('2D curl of CS flow');
     
     subplot(4,2,2);
     mesh(yqq, zqq, Tqq); colorbar; view(2);
