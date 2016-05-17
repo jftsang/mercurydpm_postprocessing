@@ -13,10 +13,13 @@ function [yqq,zqq,rhoqq,vxqq,vyqq,vzqq,Tqq,pqq] = ml_gridveldata(fn)
         linspace(min(yqs), max(yqs), 128), ...
         linspace(min(zqs), max(zqs), 128) );
     [yqq, zqq, rhoqq] = griddata(yqs, zqs, rhoqs, yqq, zqq);
-    rhoqq(rhoqq < 0.1) = nan; % so that regions of zero density aren't painted
+    rhoqq(rhoqq < 1) = nan; % so that regions of zero density aren't painted
     [yqq, zqq, vxqq] = griddata(yqs, zqs, vxqs, yqq, zqq);
     [yqq, zqq, vyqq] = griddata(yqs, zqs, vyqs, yqq, zqq);
     [yqq, zqq, vzqq] = griddata(yqs, zqs, vzqs, yqq, zqq);
+    vxqq(isnan(rhoqq)) = nan;
+    vyqq(isnan(rhoqq)) = nan;
+    vzqq(isnan(rhoqq)) = nan;
     [yqq, zqq, Tqq] = griddata(yqs, zqs, Tqs, yqq, zqq);
     Tqq(isnan(rhoqq)) = nan;
 

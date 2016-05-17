@@ -8,11 +8,13 @@ function ml_plotvelprofile2d(fn)
     mesh(yqq, zqq, rhoqq); colorbar; view(2); 
     axis equal; axis([-1 1 0 0.5]);
     title('rho (unscaled)');
+    caxis([0 18]);
 
     subplot(4,2,3);
     mesh(yqq, zqq, vxqq); colorbar; view(2);
     axis equal; axis([-1 1 0 0.5]); 
     title('vx');
+    caxis([0 4]);
     
     subplot(4,2,5);
     mesh(yqq, zqq, vyqq); colorbar; view(2);
@@ -42,6 +44,7 @@ function ml_plotvelprofile2d(fn)
     mesh(yqq, zqq, shearrateqq); colorbar; view(2);
     axis equal; axis([-1 1 0 0.5]);
     title('shear rate (approx)');
+    caxis([0 25]);
     
     subplot(4,2,8)
     inertialnumberqq = shearrateqq ./ sqrt(pqq);
