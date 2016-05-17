@@ -4,6 +4,7 @@
 #include"particle.hpp"
 #include"mercury_dataframe.hpp"
 #include"kernfunc.hpp"
+#include"height_at_point.hpp"
 
 #include<cassert>
 
@@ -38,11 +39,11 @@ cg_fields coarse_grain_at_point(
     cg.pq = 0;
 
     for (int i = 0; i < Np; i++) {
-        double kernel = 
-            (fabs(ps[i].vx)<=eps && fabs(ps[i].vz)<=eps && fabs(ps[i].vz)<=eps) ? 0 :
-                kernfunc(xq, yq, zq,
-                         ps[i].x, ps[i].y, ps[i].z, ps[i].r, ax, ay, az,
-                         frame);
+        double kernel = kernfunc(xq, yq, zq,
+                            ps[i].x, ps[i].y, ps[i].z, ps[i].r, ax, ay, az, frame);
+
+        if (fabs(ps[i].vx)<=eps && fabs(ps[i].vz)<=eps && fabs(ps[i].vz)<=eps) 
+            kernel *= 10;
 
         cg.rhoq += kernel;
         cg.pxq += kernel*ps[i].vx;
@@ -57,6 +58,7 @@ cg_fields coarse_grain_at_point(
     cg.vzq = cg.pzq / cg.rhoq;
     cg.vsqq = cg.vsqq / cg.rhoq;
     cg.Tq = cg.vsqq - ( pow(cg.vxq,2) + pow(cg.vyq,2) + pow(cg.vzq,2) );
+    cg.pq = height_at_point_xy(xq, yq, ax, ay, frame) - zq;
     
     return cg;
 }
