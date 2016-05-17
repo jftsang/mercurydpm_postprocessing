@@ -25,4 +25,5 @@ function [yqq,zqq,rhoqq,vxqq,vyqq,vzqq,Tqq,pqq] = ml_gridveldata(fn)
 
     [yqq, zqq, pqq] = griddata(yqs, zqs, pqs, yqq, zqq);
     pqq(isnan(rhoqq)) = nan;
+    pqq(pqq<0) = nan;
 end
