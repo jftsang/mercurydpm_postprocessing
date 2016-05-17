@@ -11,11 +11,12 @@ int main(int argc, char* argv[]) {
     char filename_base[] = "/home/jmft2/MercuryDPM/MercuryBuild/Drivers/VPeriodic/veryshort3/VPeriodicveryshort3.data.";
     int first_ind = 0;
     int last_ind = 120;
-    int nframes = last_ind - first_ind + 1;
+    int jump = 1;
+    int nframes = (last_ind - first_ind)/jump + 1;
     mercury_dataframe* frames; 
 
     frames = load_mercury_3d_data_multiple(
-            filename_base, first_ind, last_ind
+            filename_base, first_ind, last_ind, jump
     );
 
     for (int i = 0; i < nframes; i++) {

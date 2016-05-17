@@ -13,7 +13,8 @@
 mercury_dataframe* load_mercury_3d_data_multiple(
         char* filename_base,
         int first_ind,
-        int last_ind
+        int last_ind,
+        int jump
 );
 
 /* For pthreading */
@@ -36,9 +37,10 @@ void* lm3d_pt_wrapper_(void* voidin) {
 mercury_dataframe* load_mercury_3d_data_multiple(
         char* filename_base,
         int first_ind,
-        int last_ind
+        int last_ind,
+        int jump
 ) {
-    int nframes = last_ind - first_ind + 1;
+    int nframes = (last_ind - first_ind)/jump + 1;
     mercury_dataframe* frames;
     frames = new mercury_dataframe[nframes];
     pthread_t threads[nframes];
@@ -46,7 +48,7 @@ mercury_dataframe* load_mercury_3d_data_multiple(
     
     for (int i = 0; i < nframes ; i++) {
         /* Construct the filenames. */
-        int ind = i + first_ind;
+        int ind = first_ind + jump*i;
         structs[i].filename = (char*)malloc(strlen(filename_base)+11);
         snprintf(structs[i].filename, strlen(filename_base)+11, 
                     "%s%d", filename_base, ind);
