@@ -46,6 +46,7 @@ function ml_plotvelprofile2d(fn)
     mesh(yqq, zqq, Tqq); colorbar; view(2);
     axis equal; axis([-1 1 0 0.5]);
     title('T (unscaled)');
+    caxis([0 0.1])
     
     subplot(4,2,4)
     mesh(yqq, zqq, pqq); colorbar; view(2);
