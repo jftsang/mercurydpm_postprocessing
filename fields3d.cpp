@@ -7,8 +7,7 @@
 #include<cstdlib>
 #include<cassert>
 #include"load_mercury_3d_data.hpp"
-#include"kernfunc.hpp"
-#include"coarse_grain_at_point.hpp"
+#include"coarse_grain_at_multiple_points.hpp"
 
 double pi = 3.1415926535898;
 double eps = 1e-12;
@@ -62,13 +61,7 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    /* TODO parallelise this bit by broadcasting xqs, yqs and zqs but need a way
-     * to collect the cgs up */
-    for (int j = 0; j < Npoints; j++) {
-        cgs[j] = coarse_grain_at_point(
-            xqs[j], yqs[j], zqs[j], a, a, a, 
-            frame.ps, frame.Np, &frame );
-    }
+    cgs = coarse_grain_at_multiple_points(xqs, yqs, zqs, Npoints, &frame);
 
     cg_fields_print(cgs, Npoints);
 

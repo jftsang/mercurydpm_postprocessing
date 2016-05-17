@@ -1,5 +1,5 @@
 #include "load_mercury_3d_data_multiple.h"
-#include"coarse_grain_at_point.hpp"
+#include"coarse_grain_at_multiple_points.hpp"
 #include<stdio.h>
 
 double xmin, xmax;
@@ -42,10 +42,9 @@ int main(int argc, char* argv[]) {
             xqs[j] = xmin + (xmax-xmin)*j/(Npoints - 1);
             yqs[j] = 0;
             zqs[j] = 0;
-            cgs[j] = coarse_grain_at_point(
-                    xqs[j], yqs[j], zqs[j], -2, 1, 0,
-                    frames[i].ps, frames[i].Np);
         }
+
+        cgs = coarse_grain_at_multiple_points(xqs, yqs, zqs, Npoints, frames+i);
         cg_fields_print(cgs, Npoints);
     }
 }

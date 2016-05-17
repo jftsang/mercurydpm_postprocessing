@@ -7,8 +7,7 @@
 #include<cstdlib>
 #include<cassert>
 #include"load_mercury_3d_data.hpp"
-#include"kernfunc.hpp"
-#include"coarse_grain_at_point.hpp"
+#include"coarse_grain_at_multiple_points.hpp"
 
 double pi = 3.1415926535898;
 double eps = 1e-12;
@@ -44,20 +43,18 @@ int main(int argc, char* argv[]) {
     std::cerr << "Finished loading from data files." << std::endl;
 
     /* Here is the list of points at which we will query the continuum field */
+    double* xqs; xqs = new double[Npoints];
+    double* yqs; yqs = new double[Npoints];
     double* zqs; zqs = new double[Npoints];
     cg_fields* cgs; cgs = new cg_fields[Npoints];
 
     for (int j = 0; j < Npoints; j++) {
+        xqs[j] = 0;
+        yqs[j] = 0;
         zqs[j] = zmin + ((zmax-zmin)*j)/(Npoints - 1); 
     }
 
-    for (int j = 0; j < Npoints; j++) {
-        cgs[j] = coarse_grain_at_point(
-            0, 0, zqs[j], 
-            0, 4, 4, 
-            frame.ps, frame.Np, &frame );
-    }
-
+    cgs = coarse_grain_at_multiple_points(xqs, yqs, zqs, Npoints, &frame);
     cg_fields_print(cgs, Npoints);
 
     return 0;

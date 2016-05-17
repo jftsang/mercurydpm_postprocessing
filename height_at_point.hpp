@@ -13,10 +13,11 @@ extern double eps;
 double height_at_point_xy(
     double xq, double yq, 
     double ax, double ay, 
-    particle* ps, int Np,
     mercury_dataframe *frame
 ) {
     double height;
+    particle* ps = frame->ps;
+    int Np = frame->Np;
 
     double* zs_weighted = (double*)malloc(Np * sizeof(double));
     for (int i = 0; i < Np; i++) {

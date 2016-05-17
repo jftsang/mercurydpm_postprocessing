@@ -13,15 +13,17 @@ typedef struct {
     double xq, yq, zq;
     double rhoq, pxq, pyq, pzq, vxq, vyq, vzq;
     double vsqq, Tq;
+    double pq;
 } cg_fields;
 
 cg_fields coarse_grain_at_point(
         double xq, double yq, double zq, 
         double ax, double ay, double az,
-        particle* ps, int Np,
         mercury_dataframe *frame 
 ) {
     cg_fields cg;
+    particle* ps = frame->ps;
+    int Np = frame->Np;
 
     cg.xq = xq;
     cg.yq = yq;
@@ -33,6 +35,7 @@ cg_fields coarse_grain_at_point(
     cg.pzq = 0;
     cg.vsqq = 0;
     cg.Tq = 0;
+    cg.pq = 0;
 
     for (int i = 0; i < Np; i++) {
         double kernel = 
@@ -59,14 +62,14 @@ cg_fields coarse_grain_at_point(
 }
 
 void cg_fields_print(cg_fields* cgs, int Npoints) {
-    fprintf(stdout, "j xq yq zq rhoq vxq vyq vzq pxq pyq pzq Tq\n");
+    fprintf(stdout, "j xq yq zq rhoq vxq vyq vzq pxq pyq pzq Tq pq\n");
     for (int j = 0; j < Npoints; j++) {
-        fprintf(stdout, "%d %f %f %f %f %f %f %f %f %f %f %f\n", 
+        fprintf(stdout, "%d %f %f %f %f %f %f %f %f %f %f %f %f\n", 
                 j, cgs[j].xq, cgs[j].yq, cgs[j].zq,
                 cgs[j].rhoq, 
                 cgs[j].vxq, cgs[j].vyq, cgs[j].vzq, 
                 cgs[j].pxq, cgs[j].pyq, cgs[j].pzq,
-                cgs[j].Tq);
+                cgs[j].Tq, cgs[j].pq);
     }
 }
 
