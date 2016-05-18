@@ -41,8 +41,7 @@ mercury_dataframe* load_mercury_3d_data_multiple(
         int jump
 ) {
     int nframes = (last_ind - first_ind)/jump + 1;
-    mercury_dataframe* frames;
-    frames = new mercury_dataframe[nframes];
+    mercury_dataframe* frames = (mercury_dataframe*)malloc(nframes * sizeof(mercury_dataframe));
     pthread_t threads[nframes];
     lm3d_pt_wrapstruct_ structs[nframes]; 
     
