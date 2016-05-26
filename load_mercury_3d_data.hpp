@@ -4,6 +4,7 @@
 #include<fstream>
 #include<string>
 #include<vector>
+#include<cassert>
 #include"mercury_dataframe.hpp"
 
 /* Function declarations */
@@ -44,6 +45,8 @@ mercury_dataframe load_mercury_3d_data(
 
     std::ifstream dataFile;
     dataFile.open(filename.c_str());
+
+    assert( !dataFile.fail() );
 
     int Np=0;
     double time=0;

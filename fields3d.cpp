@@ -61,7 +61,7 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    cgs = coarse_grain_at_multiple_points(xqs, yqs, zqs, Npoints, &frame);
+    cgs = coarse_grain_at_multiple_points(xqs, yqs, zqs, -2, 4, 4, Npoints, &frame);
 
     cg_fields_print(cgs, Npoints);
 

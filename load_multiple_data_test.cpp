@@ -45,7 +45,7 @@ int main(int argc, char* argv[]) {
             zqs[j] = 0;
         }
 
-        cgs = coarse_grain_at_multiple_points(xqs, yqs, zqs, Npoints, frames+i);
+        cgs = coarse_grain_at_multiple_points(xqs, yqs, zqs, -2, 4, 4, Npoints, frames+i);
         cg_fields_print(cgs, Npoints);
     }
 }

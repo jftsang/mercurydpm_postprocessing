@@ -40,7 +40,9 @@ void* cgmp_pt_wrapper_(void* voidin) {
 
 
 cg_fields* coarse_grain_at_multiple_points(
-        double* xqs, double* yqs, double* zqs, int Npoints,
+        double* xqs, double* yqs, double* zqs, 
+        double ax, double ay, double az, 
+        int Npoints,
         mercury_dataframe *frame) 
 {
         cg_fields* cgs = (cg_fields*)malloc(Npoints * sizeof(cg_fields));
@@ -51,9 +53,9 @@ cg_fields* coarse_grain_at_multiple_points(
             structs[j].xq = xqs[j];
             structs[j].yq = yqs[j];
             structs[j].zq = zqs[j];
-            structs[j].ax = -2;
-            structs[j].ay = 4;
-            structs[j].az = 4;
+            structs[j].ax = ax;
+            structs[j].ay = ay;
+            structs[j].az = az;
             structs[j].frameptr = frame;
             structs[j].cgptr = &cgs[j];
 

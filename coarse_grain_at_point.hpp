@@ -42,6 +42,10 @@ cg_fields coarse_grain_at_point(
         double kernel = kernfunc(xq, yq, zq,
                             ps[i].x, ps[i].y, ps[i].z, ps[i].r, ax, ay, az, frame);
 
+        /* If a particle has an extremely small speed then it is probably part
+         * of a rough wall. There are two options: one is to give this particle
+         * zero weighting, and another is to give this particle extremely high
+         * weighting (to impose boundary conditions on the continuum field). */
         if (fabs(ps[i].vx)<=eps && fabs(ps[i].vz)<=eps && fabs(ps[i].vz)<=eps) 
             kernel *= 10;
 

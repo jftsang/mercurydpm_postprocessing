@@ -11,9 +11,6 @@
 
 double pi = 3.1415926535898;
 double eps = 1e-12;
-double xmin, xmax;
-double ymin, ymax;
-double zmin, zmax;
 double alpha = 25 * (pi / 180);
 
 int main(int argc, char* argv[]) {
@@ -37,9 +34,12 @@ int main(int argc, char* argv[]) {
     fprintf(stderr, "Loaded frame: time %f from file %s\n",
                 frame.time, filename.c_str());
 
+    double xmin, xmax;
+    double ymin, ymax;
+    double zmin, zmax;
     xmin = frame.xmin; xmax = frame.xmax;
     ymin = frame.ymin; ymax = frame.ymax;
-    zmin = frame.zmin; zmax = frame.zmax;
+    zmin = frame.zmin; zmax = frame.zmax; if (zmax == zmin) zmax += 1;
     std::cerr << "Np = " << frame.Np  << std::endl;
     std::cerr << "Finished loading from data files." << std::endl;
 
@@ -60,7 +60,7 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    cgs = coarse_grain_at_multiple_points(xqs, yqs, zqs, Npoints, &frame);
+    cgs = coarse_grain_at_multiple_points(xqs, yqs, zqs, 0, 3, 3, Npoints, &frame);
     cg_fields_print(cgs, Npoints);
 
     return 0;
