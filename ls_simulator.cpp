@@ -8,7 +8,15 @@
 int main(int argc, char* argv[]) {
     double desired_x = 0;
 
-    char filename_base[] = "/home/jmft2/MercuryDPM/MercuryBuild/Drivers/VPeriodic/flatbed-beta60/VPeriodic-flatbed-beta60.data.";
+    char* filename_base;
+    if (argc > 1)
+        filename_base = argv[1];
+    else
+    {
+        fprintf(stderr, "Usage: %s filename_base\n", argv[0]);
+        fprintf(stderr, "Example: %s /home/jmft2/MercuryDPM/MercuryBuild/Drivers/VPeriodic/flatbed-beta60/VPeriodic-flatbed-beta60.data.\n", argv[0]);
+        exit(-1);
+    }
     int first_ind =  500000;
     int last_ind  = 1000000;
     int jump      =  100000;
