@@ -2,6 +2,7 @@
 #define M_LOAD_3D_DATA_MULT
 
 #include<stdio.h>
+#include<stdlib.h>
 #include<string.h>
 #include"load_mercury_3d_data.hpp"
 #include<pthread.h>
