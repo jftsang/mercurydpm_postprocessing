@@ -1,7 +1,7 @@
 CXX = mpic++
 CFLAGS = -ggdb -O0 -Wall -std=c11
-LFLAGS = -lm 
-OBJS = 
+LFLAGS = -lm -lpng
+OBJS = png-helpers.o
 TARGETS = fields3d  hcs_fun_t  load_multiple_data_test  ls_simulator  v_fun_centreline  v_fun_cs
 .PHONY: clean fullclean
 
