@@ -6,24 +6,28 @@
 #include<stdio.h>
 
 int main(int argc, char* argv[]) {
-    double desired_x = 0;
-
     char* filename_base;
-    if (argc > 1)
+    int first_ind, last_ind, jump;
+    double desired_x;
+    size_t Ny;
+    if (argc > 6)
+    {
         filename_base = argv[1];
+        first_ind = atoi(argv[2]);
+        last_ind = atoi(argv[3]);
+        jump = atoi(argv[4]);
+        desired_x = atof(argv[5]);
+        Ny = atoi(argv[6]);
+    }
     else
     {
-        fprintf(stderr, "Usage: %s filename_base\n", argv[0]);
-        fprintf(stderr, "Example: %s /home/jmft2/MercuryDPM/MercuryBuild/Drivers/VPeriodic/flatbed-beta60/VPeriodic-flatbed-beta60.data.\n", argv[0]);
+        fprintf(stderr, "Usage: %s filename_base first_ind last_ind jump desired_x Ny\n", argv[0]);
+        fprintf(stderr, "Example: %s /home/jmft2/MercuryDPM/MercuryBuild/Drivers/VPeriodic/flatbed-beta60/VPeriodic-flatbed-beta60.data. 500000 1000000 100000\n", argv[0]);
         exit(-1);
     }
-    int first_ind =  500000;
-    int last_ind  = 1000000;
-    int jump      =  100000;
-    int nframes = (last_ind - first_ind)/jump + 1;
+    size_t nframes = (last_ind - first_ind)/jump + 1;
     mercury_dataframe frame;
     
-    int Ny = 256;
     double* xqs = (double*) malloc(Ny * sizeof(double));
     double* yqs = (double*) malloc(Ny * sizeof(double));
     double* tqs = (double*) malloc(Ny * sizeof(double));
