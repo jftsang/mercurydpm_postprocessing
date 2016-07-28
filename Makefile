@@ -1,5 +1,5 @@
 CXX = mpic++
-CFLAGS = -ggdb -O0 -Wall -std=c11
+CFLAGS = -I/Users/jmft2/local/include -ggdb -O0 -Wall -std=c11
 LFLAGS = -L/Users/jmft2/local/lib -lm -lpng -lpnghelpers
 OBJS =
 TARGETS = fields3d  hcs_fun_t  load_multiple_data_test  ls_simulator ls_simulator_2d v_fun_centreline  v_fun_cs
