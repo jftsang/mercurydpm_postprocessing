@@ -8,10 +8,10 @@
 #include<cassert>
 #include"load_mercury_3d_data.hpp"
 #include"coarse_grain_at_multiple_points.hpp"
+#include"pnghelpers.h"
 
-double pi = 3.1415926535898;
 double eps = 1e-12;
-double alpha = 25 * (pi / 180);
+double alpha = 25 * (M_PI / 180);
 
 int main(int argc, char* argv[]) {
 
